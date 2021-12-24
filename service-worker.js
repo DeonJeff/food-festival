@@ -1,6 +1,10 @@
 const APP_PREFIX = 'FoodEvent-';     
 const VERSION = 'version_01';
+<<<<<<< HEAD
 const CACHE_NAME = APP_PREFIX + VERSION
+=======
+const CACHE_NAME = APP_PREFIX + VERSION;
+>>>>>>> ff302e7d263020a8e4e8dbcefef18954d5522752
 const FILES_TO_CACHE = [
   "./index.html",
   "./events.html",
@@ -45,6 +49,7 @@ self.addEventListener('install', function (e) {
 })
 
 // Delete outdated caches
+<<<<<<< HEAD
 self.addEventListener('activate', function (e) {
   e.waitUntil(
     caches.keys().then(function (keyList) {
@@ -62,6 +67,27 @@ self.addEventListener('activate', function (e) {
           return caches.delete(keyList[i]);
         }
       }));
+=======
+self.addEventListener('activate', function(e) {
+  e.waitUntil(
+    caches.keys().then(function(keyList) {
+      // `keyList` contains all cache names under your username.github.io
+      // filter out ones that has this app prefix to create keeplist
+      let cacheKeeplist = keyList.filter(function(key) {
+        return key.indexOf(APP_PREFIX);
+      });
+      // add current cache name to keeplist
+      cacheKeeplist.push(CACHE_NAME);
+
+      return Promise.all(
+        keyList.map(function(key, i) {
+          if (cacheKeeplist.indexOf(key) === -1) {
+            console.log('deleting cache : ' + keyList[i]);
+            return caches.delete(keyList[i]);
+          }
+        })
+      );
+>>>>>>> ff302e7d263020a8e4e8dbcefef18954d5522752
     })
   );
 });
